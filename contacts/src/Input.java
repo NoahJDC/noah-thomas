@@ -2,13 +2,9 @@
 import java.util.Scanner;
 
 public class Input {
-    private Scanner scanner;
+    private static Scanner scanner = new Scanner(System.in).useDelimiter("\n");
 
-    public Input() {
-        this.scanner = new Scanner(System.in);
-    }
-
-    public String getString() {
+    public static String getString() {
         return scanner.nextLine();
     }
 
@@ -27,9 +23,8 @@ public class Input {
 
     }
 
-    public int getInt() {
-        System.out.println("Please, enter an Integer");
-        String s = this.scanner.nextLine();
+    public static int getInt() {
+        String s = scanner.nextLine();
         int num;
         try {
             num = Integer.valueOf(s);
