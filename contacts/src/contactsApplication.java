@@ -148,33 +148,51 @@ public class contactsApplication {
         String name = Input.getString();
 
         if(checkName(name)){
-            System.out.println("That contact already exists! ");
-            addContact("contactList.txt", "data");
-        }
-        System.out.println("Enter their number: ");
-        String number = Input.getString();
-        if(number.contains("-")){
-            System.out.println("Please enter a number with only integers!");
-            addContact("contactList.txt", "data");
-        } else if(number.length() < 7 || number.length() > 10 || number.length() == 9 || number.length() == 8 ){
-            System.out.println("That is not an acceptable length!");
-            addContact("contactList.txt", "data");
-        }
-        contacts thisPunk = new contacts(name, number);
-        contactList.add(thisPunk);
-        String contact = name + " " + number;
+            System.out.println("That contact already exists! Would you like to overwrite it? y/n ");
+            String choice = Input.getString();
+            if(choice.equalsIgnoreCase("y") || choice.equalsIgnoreCase("yes")){
+                System.out.println("What would you like to change their number to?");
+                String number = Input.getString();
+                changeNumber(name, number);
+            } else {
 
-        List<String> newContact = new ArrayList<>();
-        newContact.add(contact);
-        try {
-            Files.write(Paths.get(directory, file), newContact, StandardOpenOption.APPEND);
-        }
-        catch(IOException e){
-            System.out.println(e.getMessage());
-        }
-        System.out.println();
-        continueProgram();
+                addContact("contactList.txt", "data");
+            }
+            continueProgram();
+        } else {
+            System.out.println("Enter their number: ");
+            String number = Input.getString();
+            if (number.contains("-")) {
+                System.out.println("Please enter a number with only integers!");
+                addContact("contactList.txt", "data");
+            } else if (number.length() < 7 || number.length() > 10 || number.length() == 9 || number.length() == 8) {
+                System.out.println("That is not an acceptable length!");
+                addContact("contactList.txt", "data");
+            }
+            contacts thisPunk = new contacts(name, number);
+            contactList.add(thisPunk);
+            String contact = name + " " + number;
 
+            List<String> newContact = new ArrayList<>();
+            newContact.add(contact);
+            try {
+                Files.write(Paths.get(directory, file), newContact, StandardOpenOption.APPEND);
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+            System.out.println();
+            continueProgram();
+        }
+
+    }
+
+    public static String changeNumber(String name, String number){
+        for(contacts index: contactList){
+            if(index.getName().equalsIgnoreCase(name)){
+                index.setNumber(number);
+            }
+        }
+        return name;
     }
 
     public static Boolean checkName(String name){
@@ -183,10 +201,8 @@ public class contactsApplication {
             if(index.getName().equalsIgnoreCase(name)){
                 check = true;
             }
-
         }
         return check;
-
     }
 
     public static void viewContacts(){
