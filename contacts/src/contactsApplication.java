@@ -147,8 +147,8 @@ public class contactsApplication {
         System.out.println("Enter a contact name: ");
         String name = Input.getString();
 
-        if(checkName(name) == true){
-            System.out.println("That contact already exists!");
+        if(checkName(name)){
+            System.out.println("That contact already exists! ");
             addContact("contactList.txt", "data");
         }
         System.out.println("Enter their number: ");
@@ -173,8 +173,6 @@ public class contactsApplication {
             System.out.println(e.getMessage());
         }
         System.out.println();
-        updateInfo("contactList.txt", "data");
-        importFile("contactList.txt", "data");
         continueProgram();
 
     }
@@ -232,6 +230,7 @@ public class contactsApplication {
         for(contacts index: contactList){
             if(index.getName().equalsIgnoreCase(name)){
                 contactList.remove(index);
+                System.out.println(name + " is now removed.");
                 break;
             }
         }
@@ -240,6 +239,8 @@ public class contactsApplication {
     }
 
     public static void continueProgram(){
+        updateInfo("contactList.txt", "data");
+        importFile("contactList.txt", "data");
         System.out.println("Continue? Y/N");
         String choice = Input.getString();
         if(choice.equalsIgnoreCase("y")||choice.equalsIgnoreCase("yes")){
